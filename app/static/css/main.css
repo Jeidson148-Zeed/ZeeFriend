@@ -52,9 +52,10 @@ button { border: none; cursor: pointer; font-family: inherit; }
 }
 
 .nav-left .logo {
-    color: var(--fb-blue);
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 800;
+    color: #1877f2;
+    text-decoration: none;
     letter-spacing: -1px;
     margin-right: 10px;
 }
