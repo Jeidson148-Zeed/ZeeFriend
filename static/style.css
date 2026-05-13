@@ -1,0 +1,50 @@
+body { 
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+    background: #f0f2f5; 
+    margin: 0; 
+    color: #1c1e21;
+}
+
+.navbar { 
+    background: #1877f2; 
+    color: white; 
+    padding: 0 20px; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    height: 56px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.container { 
+    max-width: 600px; 
+    margin: 20px auto; 
+    padding: 0 16px; 
+}
+
+.card { 
+    background: white; 
+    border-radius: 8px; 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+    padding: 16px; 
+    margin-bottom: 20px; 
+}
+
+.post-btn { 
+    background: #1877f2; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background 0.2s;
+}
+
+.post-btn:hover { 
+    background: #166fe5; 
+}
+
+input::placeholder, textarea::placeholder {
+    color: #65676b;
+}

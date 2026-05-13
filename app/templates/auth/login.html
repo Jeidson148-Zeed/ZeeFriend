@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Entrar no ZeeFriend{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="login-page">
+    <div class="login-container">
+        <div class="login-brand">
+            <h1 class="brand-logo">ZeeFriend</h1>
+            <p class="brand-tagline">O ZeeFriend ajuda você a se conectar e compartilhar com as pessoas que fazem parte da sua vida.</p>
+        </div>
+        
+        <div class="login-box-container">
+            <div class="login-card">
+                {% if register_mode %}
+                <form action="{{ url_for('auth.register') }}" method="post">
+                    <input type="text" name="nome" placeholder="Nome completo" required>
+                    <input type="text" name="username" placeholder="Seu @username" required>
+                    <input type="password" name="password" placeholder="Senha" required>
+                    <button type="submit" class="btn-login btn-register-big">Cadastre-se</button>
+                    <hr>
+                    <div class="text-center">
+                        <a href="{{ url_for('auth.login') }}" class="btn-create">Já tenho uma conta</a>
+                    </div>
+                </form>
+                {% else %}
+                <form action="{{ url_for('auth.login') }}" method="post">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Senha" required>
+                    <button type="submit" class="btn-login">Entrar</button>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    <hr>
+                    <div class="text-center">
+                        <a href="{{ url_for('auth.register') }}" class="btn-create">Criar nova conta</a>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <p class="login-footer"><b>Criar uma Página</b> para uma celebridade, uma marca ou uma empresa.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

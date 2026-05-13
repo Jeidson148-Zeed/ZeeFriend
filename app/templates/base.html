@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ZeeFriend{% endblock %} 🚀</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% if session.get('user') %}
+    <nav class="fb-navbar">
+        <div class="fb-container nav-content">
+            <div class="nav-left">
+                <a href="{{ url_for('feed.index') }}" class="logo">ZeeFriend</a>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Pesquisar no ZeeFriend">
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <a href="{{ url_for('feed.index') }}" class="nav-icon active"><i class="fas fa-home"></i></a>
+                <a href="#" class="nav-icon"><i class="fas fa-user-friends"></i></a>
+                <a href="#" class="nav-icon"><i class="fas fa-video"></i></a>
+                <a href="#" class="nav-icon"><i class="fas fa-store"></i></a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="{{ url_for('profile.user_profile', username=session['user']['username']) }}" class="profile-link">
+                    <div class="avatar-small">{{ session['user']['nome'][0]|upper }}</div>
+                    <span>{{ session['user']['nome'].split()[0] }}</span>
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="nav-icon-round"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="fb-container">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

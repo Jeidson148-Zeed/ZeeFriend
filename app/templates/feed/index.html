@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="fb-container feed-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar-left">
+        <ul class="sidebar-list">
+            <li>
+                <a href="{{ url_for('profile.user_profile', username=user.username) }}">
+                    <div class="avatar-sidebar">{{ user.nome[0]|upper }}</div>
+                    <span>{{ user.nome }}</span>
+                </a>
+            </li>
+            <li><a href="#"><i class="fas fa-user-friends color-blue"></i><span>Amigos</span></a></li>
+            <li><a href="#"><i class="fas fa-users color-green"></i><span>Grupos</span></a></li>
+            <li><a href="#"><i class="fas fa-store color-blue"></i><span>Marketplace</span></a></li>
+            <li><a href="#"><i class="fas fa-video color-red"></i><span>Watch</span></a></li>
+            <li><a href="#"><i class="fas fa-history color-blue"></i><span>Lembranças</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Feed -->
+    <section class="feed-main">
+        <!-- Post Composer -->
+        <div class="card composer-card">
+            <div class="composer-top">
+                <div class="avatar-small">{{ user.nome[0]|upper }}</div>
+                <button class="composer-trigger" onclick="openPostModal()">No que você está pensando, {{ user.nome.split()[0] }}?</button>
+            </div>
+            <hr>
+            <div class="composer-bottom">
+                <div class="composer-action"><i class="fas fa-video color-red"></i><span>Vídeo ao vivo</span></div>
+                <div class="composer-action"><i class="fas fa-images color-green"></i><span>Foto/vídeo</span></div>
+                <div class="composer-action"><i class="fas fa-smile color-yellow"></i><span>Sentimento/atividade</span></div>
+            </div>
+        </div>
+
+        <!-- Posts -->
+        <div id="posts-list">
+            {% for p in posts %}
+            <div class="card post-card">
+                <div class="post-header">
+                    <a href="{{ url_for('profile.user_profile', username=p.author.username) }}">
+                        <div class="avatar-small">{{ p.author.username[1]|upper if p.author.username|length > 1 else '?' }}</div>
+                    </a>
+                    <div class="post-meta">
+                        <a href="{{ url_for('profile.user_profile', username=p.author.username) }}" class="post-author">@{{ p.author.username }}</a>
+                        <span class="post-time">1 h · <i class="fas fa-globe-americas"></i></span>
+                    </div>
+                    <button class="post-options"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+                <div class="post-content">
+                    <p>{{ p.texto }}</p>
+                    {% if p.foto %}
+                    <div class="post-image-container">
+                        <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="Post image">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="post-stats">
+                    <div class="stats-left">
+                        <i class="fas fa-thumbs-up color-blue"></i>
+                        <span>12</span>
+                    </div>
+                    <div class="stats-right">
+                        <span>4 comentários</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="post-actions">
+                    <button class="action-btn"><i class="far fa-thumbs-up"></i><span>Curtir</span></button>
+                    <button class="action-btn"><i class="far fa-comment"></i><span>Comentar</span></button>
+                    <button class="action-btn"><i class="far fa-share-square"></i><span>Compartilhar</span></button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Right Sidebar (Contacts) -->
+    <aside class="sidebar-right">
+        <div class="sidebar-header">
+            <h3>Contatos</h3>
+            <div class="header-icons">
+                <i class="fas fa-video"></i>
+                <i class="fas fa-search"></i>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+        </div>
+        <ul class="contacts-list">
+            <li class="online-user">
+                <div class="avatar-contact">J</div>
+                <span>João Silva</span>
+            </li>
+            <!-- Outros contatos fakes -->
+        </ul>
+    </aside>
+</div>
+
+<!-- Simple Post Modal -->
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Criar publicação</h2>
+            <span class="close" onclick="closePostModal()">&times;</span>
+        </div>
+        <form action="{{ url_for('feed.postar') }}" method="post" enctype="multipart/form-data">
+            <div class="modal-user">
+                <div class="avatar-small">{{ user.nome[0]|upper }}</div>
+                <div class="user-meta">
+                    <b>{{ user.nome }}</b>
+                    <div class="privacy-selector"><i class="fas fa-users"></i> Amigos <i class="fas fa-caret-down"></i></div>
+                </div>
+            </div>
+            <textarea name="texto" placeholder="No que você está pensando, {{ user.nome.split()[0] }}?" required></textarea>
+            <div class="add-to-post">
+                <span>Adicionar à sua publicação</span>
+                <div class="add-icons">
+                    <label for="foto-input"><i class="fas fa-images color-green"></i></label>
+                    <input type="file" name="foto" id="foto-input" accept="image/*" style="display:none;">
+                    <i class="fas fa-user-tag color-blue"></i>
+                    <i class="fas fa-smile color-yellow"></i>
+                    <i class="fas fa-map-marker-alt color-red"></i>
+                </div>
+            </div>
+            <button type="submit" class="btn-post-submit">Publicar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

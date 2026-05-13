@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+
+# Database
+usuarios.json
+zeifriend.db
+app_legacy.py
+
+# Environment
+.env
+
+# Uploads
+app/static/uploads/*
+!app/static/uploads/.gitkeep

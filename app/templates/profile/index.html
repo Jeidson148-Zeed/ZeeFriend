@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile_user.nome }} | ZeeFriend{% endblock %}
+
+{% block content %}
+<div class="profile-header-container">
+    <div class="fb-container">
+        <div class="profile-cover">
+            <!-- Placeholder cover -->
+            <div class="cover-photo"></div>
+            <button class="btn-edit-cover"><i class="fas fa-camera"></i> Editar foto de capa</button>
+        </div>
+        
+        <div class="profile-basic-info">
+            <div class="profile-avatar-container">
+                <div class="avatar-large">{{ profile_user.nome[0]|upper }}</div>
+                <button class="btn-edit-avatar"><i class="fas fa-camera"></i></button>
+            </div>
+            <div class="profile-names">
+                <h1>{{ profile_user.nome }}</h1>
+                <span class="profile-username">@{{ profile_user.username }}</span>
+                <p class="profile-friends-count">1.2 mil amigos</p>
+            </div>
+            <div class="profile-actions">
+                {% if profile_user.username == current_user.username %}
+                <button class="btn-action-profile btn-blue"><i class="fas fa-plus-circle"></i> Adicionar ao story</button>
+                <button class="btn-action-profile btn-gray"><i class="fas fa-pen"></i> Editar perfil</button>
+                {% else %}
+                <button class="btn-action-profile btn-blue"><i class="fas fa-user-plus"></i> Adicionar amigo</button>
+                <button class="btn-action-profile btn-gray"><i class="fab fa-messenger"></i> Mensagem</button>
+                {% endif %}
+            </div>
+        </div>
+        
+        <hr class="profile-hr">
+        
+        <nav class="profile-nav">
+            <a href="#" class="active">Publicações</a>
+            <a href="#">Sobre</a>
+            <a href="#">Amigos</a>
+            <a href="#">Fotos</a>
+            <a href="#">Vídeos</a>
+            <a href="#">Mais <i class="fas fa-caret-down"></i></a>
+        </nav>
+    </div>
+</div>
+
+<div class="fb-container profile-body">
+    <div class="profile-left-col">
+        <div class="card intro-card">
+            <h3>Apresentação</h3>
+            <p class="bio">Apaixonado por tecnologia e café. ☕💻</p>
+            <button class="btn-full-width">Editar bio</button>
+            <ul class="intro-details">
+                <li><i class="fas fa-briefcase"></i> Trabalha na empresa <b>ZeeFriend</b></li>
+                <li><i class="fas fa-graduation-cap"></i> Estudou na <b>Universidade Global</b></li>
+                <li><i class="fas fa-home"></i> Mora em <b>São Paulo, Brasil</b></li>
+                <li><i class="fas fa-heart"></i> Em um relacionamento sério</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="profile-right-col">
+        {% if profile_user.username == current_user.username %}
+        <!-- Post Composer (mesmo do feed) -->
+        <div class="card composer-card">
+            <div class="composer-top">
+                <div class="avatar-small">{{ current_user.nome[0]|upper }}</div>
+                <button class="composer-trigger" onclick="openPostModal()">No que você está pensando?</button>
+            </div>
+        </div>
+        {% endif %}
+
+        <div id="posts-list">
+            {% for p in posts %}
+            <div class="card post-card">
+                <!-- Estrutura de post igual ao feed -->
+                <div class="post-header">
+                    <div class="avatar-small">{{ profile_user.nome[0]|upper }}</div>
+                    <div class="post-meta">
+                        <span class="post-author">@{{ p.author.username }}</span>
+                        <span class="post-time">Há 2 horas · <i class="fas fa-globe-americas"></i></span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>{{ p.texto }}</p>
+                    {% if p.foto %}
+                    <div class="post-image-container">
+                        <img src="{{ url_for('static', filename='uploads/' + p.foto) }}" alt="Post image">
+                    </div>
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="post-actions">
+                    <button class="action-btn"><i class="far fa-thumbs-up"></i><span>Curtir</span></button>
+                    <button class="action-btn"><i class="far fa-comment"></i><span>Comentar</span></button>
+                    <button class="action-btn"><i class="far fa-share-square"></i><span>Compartilhar</span></button>
+                </div>
+            </div>
+            {% else %}
+            <div class="card empty-card">
+                <p>Nenhuma publicação encontrada.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Reuso do Modal de Post -->
+{% include "feed/_post_modal.html" ignore missing %}
+{% endblock %}

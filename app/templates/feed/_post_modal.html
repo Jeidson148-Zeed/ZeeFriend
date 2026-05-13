@@ -1,0 +1,30 @@
+<!-- Simple Post Modal Partial -->
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Criar publicação</h2>
+            <span class="close" onclick="closePostModal()">&times;</span>
+        </div>
+        <form action="{{ url_for('feed.postar') }}" method="post" enctype="multipart/form-data">
+            <div class="modal-user">
+                <div class="avatar-small">{{ session['user']['nome'][0]|upper }}</div>
+                <div class="user-meta">
+                    <b>{{ session['user']['nome'] }}</b>
+                    <div class="privacy-selector"><i class="fas fa-users"></i> Amigos <i class="fas fa-caret-down"></i></div>
+                </div>
+            </div>
+            <textarea name="texto" placeholder="No que você está pensando, {{ session['user']['nome'].split()[0] }}?" required></textarea>
+            <div class="add-to-post">
+                <span>Adicionar à sua publicação</span>
+                <div class="add-icons">
+                    <label for="foto-input-modal"><i class="fas fa-images color-green"></i></label>
+                    <input type="file" name="foto" id="foto-input-modal" accept="image/*" style="display:none;">
+                    <i class="fas fa-user-tag color-blue"></i>
+                    <i class="fas fa-smile color-yellow"></i>
+                    <i class="fas fa-map-marker-alt color-red"></i>
+                </div>
+            </div>
+            <button type="submit" class="btn-post-submit">Publicar</button>
+        </form>
+    </div>
+</div>
